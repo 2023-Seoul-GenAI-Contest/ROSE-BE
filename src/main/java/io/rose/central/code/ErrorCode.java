@@ -1,4 +1,4 @@
-package io.rose.central.config.rest;
+package io.rose.central.code;
 
   public enum ErrorCode {
     UNKNOWN_ERROR("C001"),

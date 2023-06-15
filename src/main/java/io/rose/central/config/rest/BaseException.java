@@ -1,5 +1,7 @@
 package io.rose.central.config.rest;
 
+import io.rose.central.code.ErrorCode;
+
 public abstract class BaseException extends RuntimeException {
 
     private static final long serialVersionUID = 6697553987008675632L;
