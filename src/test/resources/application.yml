@@ -13,8 +13,8 @@ spring:
     driverClassName: org.postgresql.Driver
     # jdbcUrl: jdbc:postgresql://203.250.148.52:20516/seoul_genai
     jdbcUrl: jdbc:postgresql://localhost:5432/seoul_genai
-    username: datacore
-    password: datacore
+    username: postgres
+    password: postgres
 
 server:
   port: 8080
@@ -23,7 +23,6 @@ naver:
   stt-url: https://naveropenapi.apigw.ntruss.com/recog/v1/stt
   client-id: 2cewgcwp3h
   client-secret: lkZpvu9bhJfS8MErVvVqMSFIWk4ySCma2dJ4C52A
-
 http.pool:
   max.total: 200
   defaultMaxPerRoute: 100
