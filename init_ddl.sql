@@ -4,6 +4,7 @@ CREATE TABLE member (
     id INT NOT NULL DEFAULT nextval('member_id_seq' :: regclass),
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255),
+    password VARCHAR(255),
     phone VARCHAR(12),
     enroll_lecture INT,
     finsh_lecture INT,

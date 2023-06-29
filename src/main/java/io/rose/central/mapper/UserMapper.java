@@ -1,5 +1,7 @@
 package io.rose.central.mapper;
 
+import io.rose.central.dao.UserDAO;
+import io.rose.central.vo.UserLoginVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,11 +18,8 @@ public interface UserMapper {
   //                 @Param("contents") String contents,
   //                 @Param("creator_id") Long createrId);
 
-  // int saveComment(@Param("creator_id") Long createrId,
-  //                 @Param("article_id") Integer articleId,
-  //                 @Param("parent_id") Integer parentId,
-  //                 @Param("contents") String contents);
-
+  int createUser(@Param("UserDAO") UserDAO user);
+  int getUserId(@Param("UserLoginVO") UserLoginVO user);
   // int deleteComment(@Param("comment_id") Integer commentId,
   //                 @Param("creator_id") Long createrId);
 
