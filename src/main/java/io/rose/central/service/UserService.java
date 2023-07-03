@@ -31,11 +31,12 @@ public class UserService {
   }
 
   public String login(UserLoginVO userLoginVO) {
-    Integer userId = userMapper.login(userLoginVO);
+    Integer userId = userMapper.getUserId(userLoginVO);
     return userId.toString();
   }
 
-  public UserVO getUserDetail(Integer id) {
-    // return user
+  public UserVO getUserDetail(Integer userId) {
+    UserVO user = userMapper.getUserDetail(userId);
+    return user;
   }
 }

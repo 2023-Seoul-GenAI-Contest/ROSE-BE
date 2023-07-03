@@ -1,17 +1,13 @@
 package io.rose.central.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import io.rose.central.config.rest.RestService;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SttService {
@@ -25,31 +21,50 @@ public class SttService {
   @Value("${naver.client-secret}")
   private String clientSecret;
 
-  @Autowired
-  private RestService restService;
+  public String convertVoiceToText(MultipartFile file) {
+    try {
+      String language = "Kor"; // 언어 코드 ( Kor, Jpn, Eng, Chn )
+      String apiURL =
+        "https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=" + language;
+      URL url = new URL(apiURL);
 
-  private File file;
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setUseCaches(false);
+      conn.setDoOutput(true);
+      conn.setDoInput(true);
+      conn.setRequestProperty("Content-Type", "application/octet-stream");
+      conn.setRequestProperty("X-NCP-APIGW-API-KEY-ID", clientId);
+      conn.setRequestProperty("X-NCP-APIGW-API-KEY", clientSecret);
 
-  public void getProcessorInfo()
-    throws JsonMappingException, JsonProcessingException {
-    file = new File("src/main/resources/explain_kakao.mp3");
-    List<String> path = new ArrayList<String>();
-    Map<String, Object> params = new HashMap<String, Object>();
-    params.put("lang", "Kor");
-    Map<String, String> headers = new HashMap<String, String>();
-    headers.put("Content-Type", "application/octet-stream");
-    headers.put("X-NCP-APIGW-API-KEY-ID", clientId);
-    headers.put("X-NCP-APIGW-API-KEY", clientSecret);
+      OutputStream outputStream = conn.getOutputStream();
 
-    ResponseEntity<String> result = restService.post(
-      baseUrl,
-      path,
-      headers,
-      file,
-      params,
-      null,
-      String.class
-    );
-    System.out.println(result);
+      byte[] buffer = new byte[4096];
+      int bytesRead = -1;
+      while ((bytesRead = file.getInputStream().read(buffer)) != -1) {
+        outputStream.write(buffer, 0, bytesRead);
+      }
+      outputStream.flush();
+      file.getInputStream().close();
+      BufferedReader br = null;
+      int responseCode = conn.getResponseCode();
+      if (responseCode == 200) { // 정상 호출
+        br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+      } else { // 오류 발생
+        System.out.println("error!!!!!!! responseCode= " + responseCode);
+        br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+      }
+      String inputLine;
+      StringBuffer response = new StringBuffer();
+      if (br != null) {
+        while ((inputLine = br.readLine()) != null) {
+          response.append(inputLine);
+        }
+        br.close();
+      }
+      return response.toString();
+    } catch (Exception e) {
+      System.out.println(e);
+      return null;
+    }
   }
 }
