@@ -36,7 +36,15 @@ public class UserService {
   }
 
   public UserVO getUserDetail(Integer userId) {
-    UserVO user = userMapper.getUserDetail(userId);
-    return user;
+    return userMapper.getUserDetail(userId);
+  }
+
+  public Boolean checkUserEmail(String email) {
+    Integer res = userMapper.checkUserEmail(email);
+    if (res > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

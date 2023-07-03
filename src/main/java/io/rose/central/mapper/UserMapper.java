@@ -9,6 +9,10 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserMapper {
   int createUser(@Param("UserDAO") UserDAO user);
+
   int getUserId(@Param("UserLoginVO") UserLoginVO user);
+
+  int checkUserEmail(@Param("email") String email);
+
   UserVO getUserDetail(@Param("userId") Integer userId);
 }

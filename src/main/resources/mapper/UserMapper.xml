@@ -1,36 +1,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mentomen.comment.mapper.CommentMapper">
-    <resultMap id="comment" type="com.example.mentomen.comment.dao.CommentDAO">
-        <id property="commentId" column="comment_id" />
-        <result property="articleId" column="article_id" />
-        <result property="creatorId" column="creator_id" />
-        <result property="parentId" column="parent_id" />
-        <result property="contents" column="contents" />
-        <result property="createdAt" column="created_at" />
-        <result property="modifiedAt" column="modified_at" />
-    </resultMap>
-    <select id="getCommentList" resultType="com.example.mentomen.comment.dao.CommentDAO"
-        resultMap="comment"> SELECT comment_id, article_id, creator_id, parent_id, contents,
-        created_at, modified_at FROM comment WHERE 1=1 <if test="article_id != null"> AND article_id
-        = #{article_id} </if>
-    <if test="user_id != null"> AND creator_id = #{user_id} </if> ; </select>
-    <select id="getCommentListByUserId" resultType="com.example.mentomen.comment.dao.CommentDAO"
-        resultMap="comment"> SELECT comment_id, article_id, creator_id, parent_id, contents,
-        created_at, modified_at FROM comment WHERE 1=1 <if test="user_id != null"> AND creator_id =
-        #{user_id} </if> ; </select>
-    <select id="getCommentChildList" resultType="com.example.mentomen.comment.dao.CommentDAO"
-        resultMap="comment"> SELECT comment_id, article_id, creator_id, parent_id, contents,
-        created_at, modified_at FROM comment WHERE parent_id = #{parent_id}; </select>
+<mapper namespace="io.rose.central.mapper.UserMapper">
+    <select id="getUserDetail" resultType="io.rose.central.vo.UserVO"
+    > SELECT id AS id, name AS name,
+        email AS email, phone AS phone, level AS level, enroll_lecture AS enrollLecture,
+        finsh_lecture AS finshLecture, created_at AS createdAt, modified_at AS modifiedAt FROM
+        member WHERE id = #{userId}; </select>
     <select id="getUserId" resultType="Integer"> SELECT id FROM member WHERE email = #{user.email}
         AND password = #{user.password}; </select>
+    <select id="checkUserEmail" resultType="Integer"> SELECT count(id) FROM member WHERE email =
+        #{user.email}; </select>
     <insert id="createUser" parameterType="io.rose.central.dao.UserDAO" useGeneratedKeys="true"
         keyProperty="id" keyColumn="id"> INSERT INTO member ( id, name, email, password, phone,
         level, enroll_lecture, finsh_lecture, created_at, modified_at ) VALUES (
         nextval('member_id_seq'),#{user.userRetriveVO.name}, #{user.userRetriveVO.email},
         #{user.userRetriveVO.password}, #{user.userRetriveVO.phone}, #{user.level},
         #{user.enrollLecture},#{user.finshLecture}, now(), now() ); </insert>
-    <!-- <update id="updateComment"> UPDATE comment SET contents=#{contents, jdbcType=VARCHAR},
-        modified_at=now() WHERE 1=1 AND comment_id=#{comment_id} AND creator_id=#{creator_id}; </update> -->
-    <!-- <delete id="deleteComment"> DELETE FROM comment WHERE 1=1 AND comment_id=#{comment_id} AND
-        creator_id=#{creator_id}; </delete> -->
 </mapper>

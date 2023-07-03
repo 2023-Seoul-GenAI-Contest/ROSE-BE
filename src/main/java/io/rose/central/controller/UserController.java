@@ -22,28 +22,29 @@ public class UserController {
 
   @PostMapping("/user")
   public ResponseEntity<String> createUser(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    @RequestBody UserRetriveVO userRetriveVO
-  ) {
-    return ResponseEntity.ok(userService.createUser(userRetriveVO));
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @RequestBody UserRetriveVO userRetriveVO) {
+    if (userService.checkUserEmail(userRetriveVO.getEmail())) {
+      return ResponseEntity.badRequest().body("Already Exist User");
+    } else {
+      return ResponseEntity.ok(userService.createUser(userRetriveVO));
+    }
   }
 
   @PostMapping("/user/login")
   public ResponseEntity<String> login(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    @RequestBody UserLoginVO userLoginVO
-  ) {
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @RequestBody UserLoginVO userLoginVO) {
     return ResponseEntity.ok(userService.login(userLoginVO));
   }
 
   @GetMapping("/user/{id}")
   public ResponseEntity<UserVO> getUserDetail(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    @PathVariable Integer id
-  ) {
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @PathVariable Integer id) {
     return ResponseEntity.ok(userService.getUserDetail(id));
   }
 }

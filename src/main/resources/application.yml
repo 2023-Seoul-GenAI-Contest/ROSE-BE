@@ -24,6 +24,9 @@ naver:
   client-id: 2cewgcwp3h
   client-secret: lkZpvu9bhJfS8MErVvVqMSFIWk4ySCma2dJ4C52A
 
+genai:
+  base-url: http://localhost:8080
+
 http.pool:
   max.total: 200
   defaultMaxPerRoute: 100

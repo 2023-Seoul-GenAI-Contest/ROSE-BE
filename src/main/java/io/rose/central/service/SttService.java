@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.rose.central.vo.SttVO;
+
 @Service
 public class SttService {
 
@@ -24,8 +28,7 @@ public class SttService {
   public String convertVoiceToText(MultipartFile file) {
     try {
       String language = "Kor"; // 언어 코드 ( Kor, Jpn, Eng, Chn )
-      String apiURL =
-        "https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=" + language;
+      String apiURL = "https://naveropenapi.apigw.ntruss.com/recog/v1/stt?lang=" + language;
       URL url = new URL(apiURL);
 
       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -61,7 +64,9 @@ public class SttService {
         }
         br.close();
       }
-      return response.toString();
+      ObjectMapper mapper = new ObjectMapper();
+      SttVO res = mapper.readValue(response.toString(), SttVO.class);
+      return res.getText();
     } catch (Exception e) {
       System.out.println(e);
       return null;

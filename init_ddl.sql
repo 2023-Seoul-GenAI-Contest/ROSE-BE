@@ -32,13 +32,19 @@ CREATE TABLE ENROLL_LECTURE_USER (
     enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_study_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+CREATE SEQUENCE chat_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 CREATE TABLE CHAT_HIST (
     user_id INT NOT NULL,
-    question TEXT NOT NULL,
-    answer TEXT,
-    parent_question_id INT,
+    chat_session INT NOT NULL,
+    chat_type TEXT NOT NULL,
+    text_num INT NOT NULL,
+    text TEXT NOT NULL,
+    status TEXT,
+    img_url TEXT,
+    lecture_url TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 CREATE SEQUENCE quiz_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 CREATE TABLE QUIZ_HIST (
     id INT NOT NULL DEFAULT nextval('quiz_id_seq' :: regclass),
