@@ -26,6 +26,7 @@ public class UserService {
     userDAO.setEnrollLecture(enrollValue);
     userDAO.setFinshLecture(finshValue);
     userDAO.setLevel(LevelCode.BEGINNER.getCode());
+    //TODO Default Lecture 값 생성 - 기본 제공 영상들
     Integer userId = userMapper.createUser(userDAO);
     return userId.toString();
   }

@@ -4,11 +4,13 @@ import lombok.Data;
 
 @Data
 public class ChatResponseVO {
-    private String msgNum;
-    private String msgType;
-    private String text;
-    private String clientId;
-    private String status;
-    private String imgUrl;
-    private String lectureUrl;
+
+  private Integer sessionId;
+  private Integer clientId;
+  private Integer msgNum;
+  private Integer msgType;
+  private String text;
+  private String status;
+  private String imgUrl;
+  private String lectureUrl;
 }
