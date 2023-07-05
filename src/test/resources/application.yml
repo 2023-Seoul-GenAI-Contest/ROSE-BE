@@ -11,8 +11,8 @@ spring:
 
   datasource:
     driverClassName: org.postgresql.Driver
-    # jdbcUrl: jdbc:postgresql://203.250.148.52:20516/seoul_genai
-    jdbcUrl: jdbc:postgresql://localhost:5432/seoul_genai
+    jdbcUrl: jdbc:postgresql://203.250.148.52:20516/seoul_genai
+    # jdbcUrl: jdbc:postgresql://localhost:5432/seoul_genai
     username: postgres
     password: postgres
 

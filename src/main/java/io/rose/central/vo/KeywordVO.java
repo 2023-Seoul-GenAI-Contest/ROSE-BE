@@ -5,9 +5,7 @@ import lombok.Data;
 @Data
 public class KeywordVO {
 
-  private Integer id;
-  private String keyword;
-  private String explain;
-  private String ImgLink;
-  private Integer timestamp; //second
+  private String time;
+  private String name;
+  private String describe;
 }

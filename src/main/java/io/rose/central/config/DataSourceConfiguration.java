@@ -1,7 +1,6 @@
 package io.rose.central.config;
 
 import javax.sql.DataSource;
-import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-// @MapperScan(value = "com.example.mentomen")
 public class DataSourceConfiguration {
 
   @Bean
@@ -32,21 +30,19 @@ public class DataSourceConfiguration {
   @Bean
   @Autowired
   public DataSourceTransactionManager dataSourceTransactionManager(
-    @Qualifier("dataSource") DataSource datasource
-  ) {
+      @Qualifier("dataSource") DataSource datasource) {
     return new DataSourceTransactionManager(datasource);
   }
 
   @Bean
   @Primary
   public SqlSessionFactory sqlSessionFactory(DataSource dataSource)
-    throws Exception {
+      throws Exception {
     SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
     bean.setDataSource(dataSource);
     bean.setMapperLocations(
-      new PathMatchingResourcePatternResolver()
-        .getResources("classpath:mapper/*Mapper.xml")
-    );
+        new PathMatchingResourcePatternResolver()
+            .getResources("classpath:mapper/*Mapper.xml"));
     return bean.getObject();
   }
 

@@ -7,6 +7,8 @@ import io.rose.central.vo.ChatHistVO;
 import io.rose.central.vo.ChatRequestVO;
 import io.rose.central.vo.ChatResponseVO;
 import io.rose.central.vo.ChatVO;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Controller
 public class ChatController {
 
@@ -31,23 +34,21 @@ public class ChatController {
 
   @PostMapping("/chat/voice")
   public ResponseEntity<String> sendChatVoice(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    @RequestParam("file") MultipartFile multipartFile
-  ) {
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @RequestParam("file") MultipartFile multipartFile) {
     return ResponseEntity.ok(sttService.convertVoiceToText(multipartFile));
   }
 
   @PostMapping("/chat/text")
   public ResponseEntity<ChatResponseVO> sendChatText(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    @RequestBody ChatRequestVO chatRequestVO
-  ) {
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @RequestBody ChatRequestVO chatRequestVO) {
     if (chatRequestVO.getSessionId() == null) {
       chatRequestVO.setSessionId(
-        chatService.createSessionId(chatRequestVO.getClientId())
-      );
+          chatService.createSessionId(chatRequestVO.getClientId()));
+      log.info("SessionId: " + chatRequestVO.getSessionId());
     }
     ChatResponseVO aiRes = chatService.getAiChat(chatRequestVO);
     ChatVO chatVO = new ChatVO();
@@ -62,20 +63,18 @@ public class ChatController {
 
   @GetMapping("/chat/{id}")
   public ResponseEntity<List<ChatDAO>> getChatDetail(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    @PathVariable Integer sessionId,
-    @RequestParam("clientId") Integer clientId
-  ) {
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @PathVariable Integer sessionId,
+      @RequestParam("clientId") Integer clientId) {
     return ResponseEntity.ok(chatService.getChatDetail(clientId, sessionId));
   }
 
   @GetMapping("/chat/hist")
   public ResponseEntity<List<ChatHistVO>> getChatHistory(
-    HttpServletRequest request,
-    HttpServletResponse response,
-    @RequestParam("clientId") Integer clientId
-  ) {
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @RequestParam("clientId") Integer clientId) {
     return ResponseEntity.ok(chatService.getChatHistory(clientId));
   }
 }

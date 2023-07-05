@@ -18,7 +18,8 @@
         #{chatVO.ChatResponseVO.msgType}, #{chatVO.ChatResponseVO.msgNum},
         #{chatVO.ChatResponseVO.text}, #{chatVO.ChatResponseVO.status},
         #{chatVO.ChatResponseVO.imgUrl}, #{chatVO.ChatResponseVO.lectureUrl}, now() ); </insert>
-    <insert id="createSessionId" parameterType="Integer" useGeneratedKeys="true"
-        keyProperty="id" keyColumn="id"> INSERT INTO session ( id, user_id, created_at ) VALUES (
-        nextval('member_id_seq'),#{ClientId}, now() ); </insert>
+    <insert id="createSessionId" parameterType="io.rose.central.vo.SessionVO"
+        useGeneratedKeys="true"
+        keyProperty="session"> INSERT INTO session ( user_id, created_at ) VALUES (
+        #{sessionVO.clientId}, now() ); </insert>
 </mapper>

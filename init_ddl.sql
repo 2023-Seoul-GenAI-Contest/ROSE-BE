@@ -1,4 +1,17 @@
 -- Database: seoul_genai
+
+-- DROP DATABASE IF EXISTS seoul_genai;
+
+CREATE DATABASE seoul_genai
+    WITH
+    OWNER = "default"
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'en_US.utf8'
+    LC_CTYPE = 'en_US.utf8'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+
 CREATE SEQUENCE member_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 CREATE TABLE member (
     id INT NOT NULL DEFAULT nextval('member_id_seq' :: regclass),
@@ -16,9 +29,25 @@ CREATE TABLE member (
 CREATE SEQUENCE lecture_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 CREATE TABLE LECTURE (
     id INT NOT NULL DEFAULT nextval('lecture_id_seq' :: regclass),
+    category TEXT NOT NULL,
+    level TEXT NOT NULL,
     title TEXT NOT NULL,
     detail TEXT,
-    thumenail TEXT,
+    total_time INT, --- hour
+    thumenail_link TEXT,
+    video_link TEXT,
+    is_active boolean,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,    
+    PRIMARY KEY (id)
+);
+CREATE SEQUENCE lecture_detail_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
+CREATE TABLE LECTURE_DETAIL (
+    id INT NOT NULL DEFAULT nextval('lecture_detail_id_seq' :: regclass),
+    lecture_seq INT NOT NULL,
+    title TEXT NOT NULL,
+    show_title TEXT,
+    parent_lecture_id TEXT,
     video_link TEXT,
     stt_text TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -45,47 +74,8 @@ CREATE TABLE CHAT_HIST (
 );
 CREATE SEQUENCE session_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 CREATE TABLE SESSION (
-    session INT NOT NULL DEFAULT nextval('quiz_id_seq' :: regclass),
+    session INT NOT NULL DEFAULT nextval('session_id_seq' :: regclass),
     user_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (session)
-);
-
-CREATE SEQUENCE quiz_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
-CREATE TABLE QUIZ_HIST (
-    id INT NOT NULL DEFAULT nextval('quiz_id_seq' :: regclass),
-    question TEXT NOT NULL,
-    lecture_id INT NOT NULL,
-    answer_id INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-);
-CREATE SEQUENCE example_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
-CREATE TABLE EXAMPLE_HIST (
-    id INT NOT NULL DEFAULT nextval('example_id_seq' :: regclass),
-    name TEXT NOT NULL,
-    quiz_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-);
-CREATE SEQUENCE keyword_id_seq INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
-CREATE TABLE KEYWORD_HIST (
-    id INT NOT NULL DEFAULT nextval('keyword_id_seq' :: regclass),
-    name TEXT NOT NULL,
-    lecture_id INT NOT NULL,
-    point_runtime INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-);
-CREATE TABLE LEC_SUMMERY_HIST (
-    data TEXT NOT NULL,
-    lecture_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TABLE SEARCH_DATA_HIST (
-    detail TEXT NOT NULL,
-    keyword_id INT NOT NULL,
-    search_pic TEXT,
-    search_ref TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

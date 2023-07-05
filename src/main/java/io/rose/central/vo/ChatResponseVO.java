@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class ChatResponseVO {
 
-  private Integer sessionId;
-  private Integer clientId;
-  private Integer msgNum;
-  private Integer msgType;
+  private String sessionId;
+  private String clientId;
+  private String msgNum;
+  private String msgType;
   private String text;
   private String status;
   private String imgUrl;

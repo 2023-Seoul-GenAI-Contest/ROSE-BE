@@ -1,18 +1,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="io.rose.central.mapper.UserMapper">
-    <select id="getUserDetail" resultType="io.rose.central.vo.UserVO"
-    > SELECT id AS id, name AS name,
-        email AS email, phone AS phone, level AS level, enroll_lecture AS enrollLecture,
-        finsh_lecture AS finshLecture, created_at AS createdAt, modified_at AS modifiedAt FROM
-        member WHERE id = #{userId}; </select>
-    <select id="getUserId" resultType="Integer"> SELECT id FROM member WHERE email = #{user.email}
-        AND password = #{user.password}; </select>
-    <select id="checkUserEmail" resultType="Integer"> SELECT count(id) FROM member WHERE email =
-        #{user.email}; </select>
-    <insert id="createUser" parameterType="io.rose.central.dao.UserDAO" useGeneratedKeys="true"
-        keyProperty="id" keyColumn="id"> INSERT INTO member ( id, name, email, password, phone,
-        level, enroll_lecture, finsh_lecture, created_at, modified_at ) VALUES (
-        nextval('member_id_seq'),#{user.userRetriveVO.name}, #{user.userRetriveVO.email},
-        #{user.userRetriveVO.password}, #{user.userRetriveVO.phone}, #{user.level},
-        #{user.enrollLecture},#{user.finshLecture}, now(), now() ); </insert>
+<mapper namespace="io.rose.central.mapper.LectureMapper">
+    <select id="getLectureList" resultType="io.rose.central.vo.LectureVO"
+    > SELECT id AS id, title AS
+        title, detail AS describe, thumenail_link AS thumbnailLink, video_link AS videoLink,
+        total_time AS totalTime FROM lecture WHERE is_active = true; </select>
+    <select id="getLectureDetailList" resultType="io.rose.central.dao.LectureDetailDAO"> SELECT id
+        AS lectureDetailId, lecture_seq AS lectureSeq, title AS title, stt_text AS text, show_title
+        AS displayTitle, parent_lecture_id AS parentId FROM lecture_detail WHERE parent_lecture_id =
+        #{parentId} ORDER BY lecture_seq; </select>
+    <select id="getLectureDetail" resultType="io.rose.central.vo.LectureRequestVO"> SELECT id AS
+        lectureCode, stt_text AS lectureText FROM lecture_detail WHERE id = #{lectureDetailId} </select>
 </mapper>
