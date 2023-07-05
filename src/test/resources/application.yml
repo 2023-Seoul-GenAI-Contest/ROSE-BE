@@ -19,6 +19,8 @@ spring:
 server:
   port: 8080
 
+genai:
+  base: http://localhost:5000
 naver:
   stt-url: https://naveropenapi.apigw.ntruss.com/recog/v1/stt
   client-id: 2cewgcwp3h
