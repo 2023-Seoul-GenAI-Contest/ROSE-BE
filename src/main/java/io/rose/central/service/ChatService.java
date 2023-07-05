@@ -7,7 +7,6 @@ import io.rose.central.vo.ChatHistVO;
 import io.rose.central.vo.ChatRequestVO;
 import io.rose.central.vo.ChatResponseVO;
 import io.rose.central.vo.ChatVO;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,10 +38,8 @@ public class ChatService {
     return res.getBody();
   }
 
-  public Boolean saveChatHist(
-    ChatVO chatVO
-  ) {
-    Integer res = chatMapper.saveChatHist(ChatVO chatVO);
+  public Boolean saveChatHist(ChatVO chatVO) {
+    Integer res = chatMapper.saveChatHist(chatVO);
     if (res > 0) return true; else return false;
   }
 
@@ -54,7 +51,7 @@ public class ChatService {
     return chatMapper.getChatDetail(clientId, sessionId);
   }
 
-  public List<ChatHistVO> getChatHistory(Integer clientId){
+  public List<ChatHistVO> getChatHistory(Integer clientId) {
     return chatMapper.getChatHistory(clientId);
   }
 }
