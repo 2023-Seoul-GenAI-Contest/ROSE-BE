@@ -52,8 +52,8 @@ public class ChatController {
     }
     ChatResponseVO aiRes = chatService.getAiChat(chatRequestVO);
     ChatVO chatVO = new ChatVO();
-    chatVO.setRequestVO(chatRequestVO);
-    chatVO.setResponseVO(aiRes);
+    chatVO.setChatRequestVO(chatRequestVO);
+    chatVO.setChatResponseVO(aiRes);
     if (chatService.saveChatHist(chatVO)) {
       return ResponseEntity.ok(aiRes);
     } else {
@@ -61,7 +61,7 @@ public class ChatController {
     }
   }
 
-  @GetMapping("/chat/{id}")
+  @GetMapping("/chat/{sessionId}")
   public ResponseEntity<List<ChatDAO>> getChatDetail(
       HttpServletRequest request,
       HttpServletResponse response,

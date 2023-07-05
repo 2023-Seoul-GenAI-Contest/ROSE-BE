@@ -11,13 +11,13 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface ChatMapper {
-  int saveChatHist(@Param("ChatVO") ChatVO chatVO);
+  int saveChatHist(@Param("chatVO") ChatVO chatVO, @Param("aiMsgNum") Integer aiMsgNum);
 
   int createSessionId(@Param("sessionVO") SessionVO sessionVO);
 
-  List<ChatHistVO> getChatHistory(@Param("ClientId") Integer clientId);
+  List<ChatHistVO> getChatHistory(@Param("clientId") Integer clientId);
 
   List<ChatDAO> getChatDetail(
-      @Param("ClientId") Integer clientId,
-      @Param("SessionId") Integer sessionId);
+      @Param("clientId") Integer clientId,
+      @Param("sessionId") Integer sessionId);
 }

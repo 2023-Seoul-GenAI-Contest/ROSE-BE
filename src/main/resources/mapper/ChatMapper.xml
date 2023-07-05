@@ -4,20 +4,18 @@
     > SELECT session AS session,
         user_id AS userId, msg_type AS msgType, msg_num AS msgNum, msg AS msg, status AS status,
         img_url AS imgUrl, lecture_url AS lectureUrl FROM chat_hist WHERE user_id = #{clientId} AND
-        session = #{sessionId}; </select>
+        session = #{sessionId} ORDER BY created_at; </select>
     <select id="getChatHistory" resultType="io.rose.central.vo.ChatHistVO"> SELECT session AS
         sessionId, msg AS text, lecture_url AS lectureUrl FROM chat_hist WHERE user_id = #{clientId}
-        AND msg_type = 0 AND msg_num = 0 ORDER BY created_at DESC LIMIT 5; </select>
-    <insert id="saveChatHist" parameterType="io.rose.central.vo.ChatVO" useGeneratedKeys="true"
-        keyProperty="id" keyColumn="id"> INSERT INTO chat_hist ( session, user_id, msg_type,
-        msg_num, msg, status, img_url, lecture_url, created_at) VALUES (
-        #{chatVO.ChatRequestVO.sessionId},#{chatVO.ChatRequestVO.clientId},
-        #{chatVO.ChatRequestVO.msgType}, #{chatVO.ChatRequestVO.msgNum},
-        #{chatVO.ChatRequestVO.text}, null, null,null, now() ), (
-        #{chatVO.ChatResponseVO.sessionId},#{chatVO.ChatResponseVO.clientId},
-        #{chatVO.ChatResponseVO.msgType}, #{chatVO.ChatResponseVO.msgNum},
-        #{chatVO.ChatResponseVO.text}, #{chatVO.ChatResponseVO.status},
-        #{chatVO.ChatResponseVO.imgUrl}, #{chatVO.ChatResponseVO.lectureUrl}, now() ); </insert>
+        AND msg_type = 0 AND msg_num = 1 ORDER BY sessionId DESC LIMIT 5; </select>
+    <insert id="saveChatHist" parameterType="io.rose.central.vo.ChatVO"> INSERT INTO chat_hist (
+        session, user_id, msg_type, msg_num, msg, status, img_url, lecture_url, created_at) VALUES (
+        #{chatVO.chatRequestVO.sessionId},#{chatVO.chatRequestVO.clientId},
+        #{chatVO.chatRequestVO.msgType}, #{chatVO.chatRequestVO.msgNum},
+        #{chatVO.chatRequestVO.text}, null, null,null, now() ), (
+        #{chatVO.chatRequestVO.sessionId},#{chatVO.chatRequestVO.clientId}, 1, #{aiMsgNum},
+        #{chatVO.chatResponseVO.text}, #{chatVO.chatResponseVO.status},
+        #{chatVO.chatResponseVO.imgUrl}, #{chatVO.chatResponseVO.lectureUrl}, now() ); </insert>
     <insert id="createSessionId" parameterType="io.rose.central.vo.SessionVO"
         useGeneratedKeys="true"
         keyProperty="session"> INSERT INTO session ( user_id, created_at ) VALUES (

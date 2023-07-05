@@ -30,6 +30,7 @@ public class ChatService {
     private ChatMapper chatMapper;
 
     public ChatResponseVO getAiChat(ChatRequestVO chatRequestVO) {
+        log.info("User Chat Request: " + chatRequestVO.toString());
         ResponseEntity<ChatResponseVO> res = restService.post(
                 genaiBaseUrl + "chat",
                 null,
@@ -43,7 +44,8 @@ public class ChatService {
     }
 
     public Boolean saveChatHist(ChatVO chatVO) {
-        Integer res = chatMapper.saveChatHist(chatVO);
+        Integer aiMsgNum = chatVO.getChatRequestVO().getMsgNum() + 1;
+        Integer res = chatMapper.saveChatHist(chatVO, aiMsgNum);
         if (res > 0)
             return true;
         else

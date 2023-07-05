@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class ChatVO {
 
-  private ChatRequestVO requestVO;
-  private ChatResponseVO responseVO;
+  private ChatRequestVO chatRequestVO;
+  private ChatResponseVO chatResponseVO;
 }
