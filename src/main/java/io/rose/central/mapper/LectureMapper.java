@@ -13,6 +13,8 @@ import io.rose.central.vo.LectureVO;
 public interface LectureMapper {
     List<LectureVO> getLectureList();
 
+    List<LectureVO> getLectureRecommandList(@Param("category") String category, @Param("level") String level);
+
     List<LectureDetailDAO> getLectureDetailList(@Param("parentId") String parentId);
 
     LectureRequestVO getLectureDetail(@Param("lectureDetailId") Integer lectureDetailId);

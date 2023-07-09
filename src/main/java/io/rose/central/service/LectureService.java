@@ -43,6 +43,24 @@ public class LectureService {
     return lectureMapper.getLectureList();
   }
 
+  public List<LectureVO> getLectureRecommandList(String category, String level) {
+    String _category = "";
+    String _level = "";
+    if (category.equals("data")) {
+      _category = "AI 빅데이터 역량 강화";
+    } else if (category.equals("digital")) {
+      _category = "디지털 역량 강화";
+    }
+    if (level.equals("basic")) {
+      _level = "초급";
+    } else if (level.equals("intermediate")) {
+      _level = "중급";
+    } else if (level.equals("advanced")) {
+      _level = "고급";
+    }
+    return lectureMapper.getLectureRecommandList(_category, _level);
+  }
+
   public List<LectureDetailVO> getLectureDetailList(Integer parentId) {
     List<LectureDetailVO> res = new ArrayList<LectureDetailVO>();
     List<LectureDetailDAO> lectureDetailDAO = lectureMapper.getLectureDetailList(parentId.toString());

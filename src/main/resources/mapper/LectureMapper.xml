@@ -4,6 +4,11 @@
     > SELECT id AS id, title AS
         title, detail AS describe, thumenail_link AS thumbnailLink, video_link AS videoLink,
         total_time AS totalTime FROM lecture WHERE is_active = true; </select>
+    <select id="getLectureRecommandList" resultType="io.rose.central.vo.LectureVO"
+    > SELECT id AS id,
+        title AS title, detail AS describe, thumenail_link AS thumbnailLink, video_link AS
+        videoLink, total_time AS totalTime FROM lecture WHERE level = #{level} AND category =
+        #{category}; </select>
     <select id="getLectureDetailList" resultType="io.rose.central.dao.LectureDetailDAO"> SELECT id
         AS lectureDetailId, lecture_seq AS lectureSeq, title AS title, stt_text AS text, show_title
         AS displayTitle, parent_lecture_id AS parentId FROM lecture_detail WHERE parent_lecture_id =

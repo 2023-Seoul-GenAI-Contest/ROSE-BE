@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -38,6 +39,15 @@ public class LectureController {
       HttpServletResponse response,
       @PathVariable Integer lectureId) {
     return ResponseEntity.ok(lectureService.getLectureDetailList(lectureId));
+  }
+
+  @GetMapping("/lecture/detail")
+  public ResponseEntity<List<LectureVO>> getLectureRecommand(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @RequestParam("category") String category,
+      @RequestParam("level") String level) {
+    return ResponseEntity.ok(lectureService.getLectureRecommandList(category, level));
   }
 
   @GetMapping("/lecture/{lectureDetailId}/summary")
