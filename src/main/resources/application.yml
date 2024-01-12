@@ -22,7 +22,7 @@ server:
 naver:
   stt-url: https://naveropenapi.apigw.ntruss.com/recog/v1/stt
   client-id: 2cewgcwp3h
-  client-secret: lkZpvu9bhJfS8MErVvVqMSFIWk4ySCma2dJ4C52A
+  client-secret: ${NAVER_SECRET}
 
 genai:
   base: http://203.250.148.52:27580/genai/
